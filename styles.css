@@ -1,4 +1,6 @@
 /*1214478*  01b0c7*/
+
+@import url('https://fonts.googleapis.com/css2?family=Delicious+Handrawn&display=swap');
 * {
     padding: 0;
     margin: 0;
@@ -6,11 +8,26 @@
 }
 
 body {
-    background: #01b0c7;
+    background: #a9d3ea;
 }
 
 h1 {
     text-align: center;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    font-size: 5rem;
+    text-shadow: 0 0 15px #ffff00;
+    color: #00b5cc;
+    font-family: "Delicious Handrawn", cursive;
+    font-weight: 400;
+    animation: title 3s infinite;
+}
+
+@keyframes title {
+    50% {
+        text-shadow: 0 0 15px #00b5cc;
+        color: #ffff00;
+    }
 }
 
 .character_container {
