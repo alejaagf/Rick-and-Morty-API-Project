@@ -4,14 +4,14 @@ async function getMortyCharacters(options = { forceRefresh: false }) {
     const CACHE_TTL = 1000 * 60 * 60; // 1 hora
 
 
-    // intentar leer caché
+    // Intentar leer caché
     try {
         const raw = localStorage.getItem(CACHE_KEY);
         if (raw) {
             const parsed = JSON.parse(raw);
             const age = Date.now() - parsed.timestamp;
             if (!options.forceRefresh && age < CACHE_TTL) {
-                // cache válido
+                // Cache válido
                 console.log("Usando cache localStorage (fresh)");
                 return parsed.data;
             }
@@ -20,12 +20,12 @@ async function getMortyCharacters(options = { forceRefresh: false }) {
         console.warn("Error leyendo cache localStorage:", err);
     }
 
-    // si no hay cache o se forza, fetch desde la API
+    // Si no hay cache o se forza, fetch desde la API
     try {
         const response = await fetch(API_URL);
 
         if (response.status === 429) {
-            // rate limited: usar cache si existe
+            // Rate limited: usar cache si existe
             console.warn("Rate limit (429) recibido de la API");
             const raw = localStorage.getItem(CACHE_KEY);
             if (raw) {
@@ -39,7 +39,7 @@ async function getMortyCharacters(options = { forceRefresh: false }) {
         const data = await response.json();
         const results = data.results || [];
 
-        // guardar en cache
+        // Guardar en cache
         try {
             localStorage.setItem(
                 CACHE_KEY,
@@ -52,7 +52,7 @@ async function getMortyCharacters(options = { forceRefresh: false }) {
         console.log("Datos obtenidos desde la API");
         return results;
     } catch (err) {
-        // fallo de red: usar cache si existe
+        // Fallo de red: usar cache si existe
         console.error("Fetch falló:", err);
         try {
             const raw = localStorage.getItem(CACHE_KEY);
@@ -64,9 +64,12 @@ async function getMortyCharacters(options = { forceRefresh: false }) {
         } catch (err2) {
             console.warn("Error leyendo cache en fallback:", err2);
         }
-        throw err; // re-lanzar si no hay cache
+        throw err; // Re-lanzar si no hay cache
     }
 }
+
+// ------------------------  IMPLEMENTACION DE LA API --------------------------//
+
 
 async function start() {
     const characters = await getMortyCharacters();
@@ -77,7 +80,7 @@ async function start() {
     characters.forEach((character) => {
         const characterCard = document.createElement("article");
         characterCard.classList.add("character_card");
-        // crear estructura interna de la tarjeta y luego añadirla al contenedor
+        // Crear estructura interna de la tarjeta y luego añadirla al contenedor
         const characterImgDiv = document.createElement("div");
         characterImgDiv.classList.add("img-container");
 
@@ -97,29 +100,52 @@ async function start() {
         characterStatus.textContent = character.status;
         characterInfo.appendChild(characterStatus);
 
-        // añadir elementos dentro de la tarjeta
         characterCard.appendChild(characterImgDiv);
         characterCard.appendChild(characterInfo);
-
-        // finalmente añadir la tarjeta al contenedor
         charactersContainer.appendChild(characterCard);
     });
 }
 
 start();
 
-let toggle = document.getElementById('toggle');
-let label_toggle = document.getElementById('label_toggle');
-toggle.addEventListener('change',(event) => {
-    let checked = event.target.checked;
-    document.body.classList.toggle('dark');
+// ------------------------  SWITCH MODO CLARO/OSCURO --------------------------//
 
-    if (checked==true){
-        label_toggle.innerHTML='<i class="fa-sharp fa-solid fa-sun"></i>'
-        label_toggle.style.color= '#ffff00';
-    }else {
-        label_toggle.innerHTML='<i class="fa-sharp fa-solid fa-moon"></i>'
-        label_toggle.style.color= '#15153b';
+const preferedColorScheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+const toggle = document.getElementById('toggle');
+const label_toggle = document.getElementById('label_toggle');
+
+const setTheme = (theme) => {
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('theme', theme);
+}
+
+function updateThemeUI(theme) {
+    // checkbox visual
+    if (toggle) toggle.checked = theme === 'dark';
+    document.body.classList.toggle('dark', theme === 'dark');
+    // Label icon + color
+    if (label_toggle) {
+        if (theme === 'dark') {
+            label_toggle.innerHTML = '<i class="fa-sharp fa-solid fa-sun"></i>';
+            label_toggle.style.color = '#ffff00';
+        } else {
+            label_toggle.innerHTML = '<i class="fa-sharp fa-solid fa-moon"></i>';
+            label_toggle.style.color = '#15153b';
+        }
     }
-    
-})
+}
+
+// Gestionar la interacción del usuario con la casilla de verificación
+if (toggle) {
+    toggle.addEventListener('change', (event) => {
+        const theme = event.target.checked ? 'dark' : 'light';
+        setTheme(theme);
+        updateThemeUI(theme);
+    });
+}
+
+// Inicializar el tema desde el almacenamiento local o la preferencia del sistema
+const initialTheme = localStorage.getItem('theme') || preferedColorScheme;
+setTheme(initialTheme);
+updateThemeUI(initialTheme);
+

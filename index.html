@@ -6,10 +6,36 @@
     <title>Rick and Morty</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="styles.css">
+
+    <!---------------CODIGO PARA ARREGLAR EL PARPADEO A LA HORA DE REFRESCAR PAGINA ---------------->
+    <script>
+        (function() {
+            try {
+                var theme = localStorage.getItem('theme');
+                if (!theme) {
+                    theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+                }
+                document.documentElement.setAttribute('data-theme', theme);
+                // Aplica el color de fondo y de texto de forma inmediata para evitar el parpadeo.
+                if (theme === 'dark') {
+                    document.documentElement.style.backgroundColor = '#15153b';
+                    document.documentElement.style.color = 'white';
+                } else {
+                    document.documentElement.style.backgroundColor = '#a9d3ea';
+                    document.documentElement.style.color = 'black';
+                }
+            } catch (e) {
+                console.warn('Error initializing theme early', e);
+            }
+        })();
+    </script>
 </head>
 <body>
+    <!----------------- SWITCH CAMBIO DE COLOR ------------------>
     <label for="toggle" id="label_toggle"><i class="fa-sharp fa-solid fa-moon"></i></label>
     <input type="checkbox" id = "toggle">
+
+    <!----------------- TITULO Y CUERPO DE LA PAGINA  ------------------->
     <h1>Rick and Morty API</h1>
     <main class="character_container">
             <article class="character_card">
@@ -22,9 +48,11 @@
                 </div>
             </article>
     </main>
+
+    <!--------------- PIE DE PAGINA ----------------->
     <footer id="site-footer">
         <div class="container footer-content">
-            <p>&copy; 2025 Alejandra Galindo — Todos los derechos reservados</p>
+            <p>&copy; 2025 Alejandra Galindo — Hecho con amor ❤️</p>
         </div>
     </footer>
     <script src="main.js"></script>
