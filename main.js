@@ -77,7 +77,7 @@ async function start() {
     const charactersContainer = document.querySelector (".character_container");
     charactersContainer.innerHTML = "";
 
-    characters.forEach((character) => {
+    characters.forEach((character, index) => {
         const characterCard = document.createElement("article");
         characterCard.classList.add("character_card");
         // Crear estructura interna de la tarjeta y luego añadirla al contenedor
@@ -103,6 +103,11 @@ async function start() {
         characterCard.appendChild(characterImgDiv);
         characterCard.appendChild(characterInfo);
         charactersContainer.appendChild(characterCard);
+
+        // animación de aparición escalonada (stagger)
+        setTimeout(() => {
+            characterCard.classList.add('visible');
+        }, index * 80);
     });
 }
 
