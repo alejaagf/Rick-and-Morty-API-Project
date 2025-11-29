@@ -4,6 +4,13 @@
 Este proyecto es una aplicación web que consume la API pública de Rick and Morty, permitiendo explorar personajes con una interfaz amigable, responsiva y con cambio de tema (modo claro/oscuro).
 Está desarrollado completamente con HTML, CSS y JavaScript Vanilla, sin frameworks.
 
+## Screenshots
+
+![App Screenshot](https://github.com/alejaagf/Rick-and-Morty-API-Project/blob/1c6419de9e6489e4398f06fafa4b6e81574713f0/Screenshot%202025-11-29%20172841.png)
+![App Screenshot](https://github.com/alejaagf/Rick-and-Morty-API-Project/blob/1c6419de9e6489e4398f06fafa4b6e81574713f0/Screenshot%202025-11-29%20172831.png)
+
+
+
 ## 🧾 Caracteristicas
 
 🎨 Modo claro y oscuro
