@@ -1,4 +1,4 @@
-/*1214478*  01b0c7*/
+/*15153b*  01b0c7*/
 
 @import url('https://fonts.googleapis.com/css2?family=Delicious+Handrawn&display=swap');
 * {
@@ -9,8 +9,26 @@
 
 body {
     background: #a9d3ea;
+    transition: all 1.5s ease;
 }
 
+#toggle {
+    display: none;
+}
+
+#label_toggle{
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 2rem;
+    color: #15153b;
+    cursor: pointer;
+}
+
+.dark{
+    background-color: #15153b;
+    transition: all 1.5s ease;
+}
 h1 {
     text-align: center;
     padding: 2rem;
