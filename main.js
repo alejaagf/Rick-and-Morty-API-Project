@@ -92,13 +92,50 @@ async function start() {
         const characterInfo = document.createElement("div");
         characterInfo.classList.add("character_info");
 
+        // Nombre + badge de estado
+        const header = document.createElement('div');
+        header.classList.add('character_header');
+
         const characterName = document.createElement("h2");
         characterName.textContent = character.name;
-        characterInfo.appendChild(characterName);
+        header.appendChild(characterName);
 
         const characterStatus = document.createElement("span");
         characterStatus.textContent = character.status;
-        characterInfo.appendChild(characterStatus);
+        characterStatus.classList.add('status');
+        // status class para colorear: alive, dead, unknown
+        const statusClass = (character.status || '').toLowerCase();
+        if (statusClass.includes('alive')) characterStatus.classList.add('alive');
+        else if (statusClass.includes('dead')) characterStatus.classList.add('dead');
+        else characterStatus.classList.add('unknown');
+        header.appendChild(characterStatus);
+        characterInfo.appendChild(header);
+
+        // Metadatos: especie, genero, origen, ubicacion, episodios
+        const meta = document.createElement('ul');
+        meta.classList.add('meta');
+
+        const speciesLi = document.createElement('li');
+        speciesLi.textContent = `Especie: ${character.species || '—'}`;
+        meta.appendChild(speciesLi);
+
+        const genderLi = document.createElement('li');
+        genderLi.textContent = `Género: ${character.gender || '—'}`;
+        meta.appendChild(genderLi);
+
+        const originLi = document.createElement('li');
+        originLi.textContent = `Origen: ${character.origin?.name || '—'}`;
+        meta.appendChild(originLi);
+
+        const locationLi = document.createElement('li');
+        locationLi.textContent = `Ubicación: ${character.location?.name || '—'}`;
+        meta.appendChild(locationLi);
+
+        const episodesLi = document.createElement('li');
+        episodesLi.textContent = `Episodios: ${character.episode ? character.episode.length : 0}`;
+        meta.appendChild(episodesLi);
+
+        characterInfo.appendChild(meta);
 
         characterCard.appendChild(characterImgDiv);
         characterCard.appendChild(characterInfo);
